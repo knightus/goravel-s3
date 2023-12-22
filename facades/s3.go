@@ -5,7 +5,7 @@ import (
 
 	"github.com/goravel/framework/contracts/filesystem"
 
-	"github.com/goravel/s3"
+	"github.com/knightus/goravel-s3"
 )
 
 func S3(disk string) filesystem.Driver {
