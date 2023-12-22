@@ -41,7 +41,7 @@ func NewS3(ctx context.Context, config config.Config, disk string) (*S3, error) 
 	region := config.GetString(fmt.Sprintf("filesystems.disks.%s.region", disk))
 	bucket := config.GetString(fmt.Sprintf("filesystems.disks.%s.bucket", disk))
 	url := config.GetString(fmt.Sprintf("filesystems.disks.%s.url", disk))
-	if accessKeyId == "" || accessKeySecret == "" || region == "" || bucket == "" || url == "" {
+	if region == "" || bucket == "" || url == "" {
 		return nil, fmt.Errorf("please set %s configuration first", disk)
 	}
 
