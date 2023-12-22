@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -220,12 +219,7 @@ func (r *S3) Files(path string) ([]string, error) {
 		return nil, err
 	}
 	for _, object := range listObjsResponse.Contents {
-		file := strings.ReplaceAll(*object.Key, validPath, "")
-		if file == "" {
-			continue
-		}
-
-		files = append(files, file)
+		files = append(files, strings.ReplaceAll(*object.Key, validPath, ""))
 	}
 
 	return files, nil
@@ -311,12 +305,6 @@ func (r *S3) Path(file string) string {
 }
 
 func (r *S3) Put(file string, content string) error {
-	if ext := filepath.Ext(file); ext != "" {
-		if err := r.MakeDirectory(filepath.Dir(file)); err != nil {
-			return err
-		}
-	}
-
 	mtype := mimetype.Detect([]byte(content))
 	_, err := r.instance.PutObject(r.ctx, &s3.PutObjectInput{
 		Bucket:        aws.String(r.bucket),
