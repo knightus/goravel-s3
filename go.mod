@@ -1,4 +1,4 @@
-module github.com/goravel/s3
+module github.com/knightus/goravel-s3
 
 go 1.20
 
