@@ -45,12 +45,14 @@ func NewS3(ctx context.Context, config config.Config, disk string) (*S3, error) 
 		return nil, fmt.Errorf("please set %s configuration first", disk)
 	}
 
+	var client *s3.Client
+
 	if accessKeyId == "" && accessKeySecret == "" {
-		client := s3.New(s3.Options{
+		client = s3.New(s3.Options{
 			Region:      region,
 		})
 	} else {
-		client := s3.New(s3.Options{
+		client = s3.New(s3.Options{
 			Region:      region,
 			Credentials: aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKeyId, accessKeySecret, "")),
 		})
