@@ -18,6 +18,8 @@ import (
 
 	"github.com/goravel/framework/contracts/config"
 	"github.com/goravel/framework/contracts/filesystem"
+
+	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 )
 
 /*
@@ -48,9 +50,11 @@ func NewS3(ctx context.Context, config config.Config, disk string) (*S3, error) 
 	var client *s3.Client
 
 	if accessKeyId == "" && accessKeySecret == "" {
-		client = s3.New(s3.Options{
-			Region:      region,
-		})
+		cfg, err := awsConfig.LoadDefaultConfig(context.TODO())
+		if err != nil {
+			return nil, err
+		}
+		client = s3.NewFromConfig(cfg)
 	} else {
 		client = s3.New(s3.Options{
 			Region:      region,
